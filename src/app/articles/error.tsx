@@ -10,7 +10,7 @@ const ErrorPage = ({error, reset}:ErrorPagePropos) => {
   return (
     <div className='pt-7 text-center'>
       <div className='text-3xl text-red-600 font-semibold'>
-        Something went wrong With Article
+        Something went wrong With <b/>API<b/> for Article Error
       </div>
       <h2 className='text-gray-700 my-3 text-xl'>
         Error Message : {error.message}
