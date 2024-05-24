@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();SVGAnimatedInteger
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,6 +14,8 @@ const LoginForm = () => {
 
     if (email == "") return toast.error("Email is required")
     if (password == "") return toast.error("Password is required")
+
+    router.replace('/');
   }
 
   return (

@@ -1,5 +1,6 @@
 
 const AboutPage = () => {
+  
   return (
     <section className="fix-height container m-auto">
       <h1 className="text-3xl font-bold text-gray-800 p-5">
