@@ -11,7 +11,7 @@ interface Props {
 /**
  * @method  DELETE
  * @route   ~/api/users/profile/[:id]
- * @desc    LDelete Profile
+ * @desc    Delete Profile
  * @access  private (only user himself can delete his account)
  */
 export async function DELETE(request: NextRequest, { params }: Props) {
@@ -42,5 +42,43 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       { message: "internal server srror" },
       { status: 500 }
     );
+  }
+}
+
+/**
+ * @method  GET
+ * @route   ~/api/users/profile/[:id]
+ * @desc    Get Profile
+ * @access  private (only user himself can get his account/profile)
+ */
+export async function GET(request: NextRequest, { params }: Props) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(params.id) },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        isAdmin: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "user not found" }, { status: 404 });
+    }
+
+    const userFromToken = verifyToken(request);
+    if (userFromToken === null || userFromToken.id !== user.id) {
+      return NextResponse.json(
+        { message: "you are not allowed, access denied" },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json(user, { status: 200 });
+  } catch (error) {
+    NextResponse.json({ message: "internal server error" }, { status: 500 });
   }
 }
