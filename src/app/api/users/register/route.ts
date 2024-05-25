@@ -3,6 +3,8 @@ import { RegisterUserDto } from "@/utils/dtos";
 import { registerSchema } from "@/utils/validationSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { generateJWT } from "@/utils/generateToken";
+import { JWTPayload } from "@/utils/types";
 
 /**
  * @method  POST
@@ -43,14 +45,18 @@ export async function POST(request: NextRequest) {
       select: {
         id: true,
         username: true,
-        isAdmin: true
-      }
+        isAdmin: true,
+      },
     });
 
-    // @Todo -> generate JWT token
-    const token = null;
+    const jwtPayload: JWTPayload = {
+      id: newUser.id,
+      isAdmin: newUser.isAdmin,
+      username: newUser.username,
+    };
+    const token = generateJWT(jwtPayload);
 
-    return NextResponse.json({...newUser, token}, { status: 201 });
+    return NextResponse.json({ ...newUser, token }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { message: "internal server error" },
