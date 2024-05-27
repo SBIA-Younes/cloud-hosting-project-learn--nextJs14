@@ -4,7 +4,6 @@ import { CreateArticleDto } from "@/utils/dtos";
 import { Article } from "@prisma/client";
 import prisma from "@/utils/db";
 
-
 /**
  * @method  GET
  * @route   ~/api/articles
@@ -19,8 +18,8 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { message: "internal server error" },
-      { status:500 }
-    )
+      { status: 500 }
+    );
   }
 }
 
@@ -55,7 +54,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { message: "internal server error" },
-      { status:500 }
-    )
+      { status: 500 }
+    );
   }
 }
